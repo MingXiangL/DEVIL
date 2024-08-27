@@ -199,8 +199,6 @@ if __name__ == "__main__":
     excel_output_path = os.path.join(args.save_dir, args.excel_output_name) # Output directory of xlsx file
 
     # Please paste your Gemini API key here.
-    # Turn to https://ai.google.dev/gemini-api/docs/api-key to get an api key.
-    # api_key = 'AIzaSyDhaOxIxgJcOnYiUgXRJatked7gLh2VOqE'
     api_key = None
     calculate_naturalness_score(args.video_dir, mp4_file_list_path, results_json_dir, excel_output_path, api_key)
 
