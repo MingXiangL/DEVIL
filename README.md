@@ -1,2 +1,2 @@
 # DEVIL
-Evaluating dynamics capability of T2V generation models with DEVIL protocols(Keep Updating).
+Evaluating dynamics capability of T2V generation models with DEVIL protocols(Updating...).
