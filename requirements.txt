@@ -1,0 +1,10 @@
+piqa
+pytorch_msssim
+imagehash
+easydict
+decord
+ftfy
+av
+openpyxl
+omegaconf
+# -i https://pypi.tuna.tsinghua.edu.cn/simple
