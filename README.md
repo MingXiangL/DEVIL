@@ -11,6 +11,7 @@ Official implementation of Evaluating dynamics capability of T2V generation mode
 - [Usage](#usage)
 - [Acknowledgement](#acknowledgement)
 - [Citation](#citation)
+- [TODO](#todo)
 
 # Overview
 ![Workflow of DEVIL](assets/workflow.png)
@@ -63,3 +64,5 @@ Please consider citing our paper in your publications if the project helps your 
   year={2024}
 }
 ```
+
+# TODO
