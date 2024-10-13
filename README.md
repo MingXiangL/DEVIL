@@ -39,7 +39,7 @@ The ```naturalness``` metric relies on the Gemini 1.5 Pro model. So please turn 
 
 # Usage
 
-- Generate videos with prompts provided in ```prompts/```, all videos should be named with dynamics prefix, e.g. 'high_xxx.mp4'
+- Generate videos with prompts provided in ```prompts/```, all videos should be named with dynamics prefix, e.g. 'high_1.mp4', 'very_high_123.mp4'...
 - Evalute videos dynamics and model metrics:
   ```
   bash eval_dynamics.dist.sh \
