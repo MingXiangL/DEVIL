@@ -1,0 +1,36 @@
+
+.loader {
+    text-align: center;
+    padding: 0;
+}
+
+.loader span {
+    --dot-size: 12px;
+    --animation-duration: 0.8s;
+    --dot-color: darkgray;
+    display: inline-block;
+    width: var(--dot-size);;
+    height: var(--dot-size);
+    background: var(--dot-color);
+    border-radius: var(--dot-size);
+    animation: loader var(--animation-duration) infinite alternate;
+}
+
+.loader span:nth-of-type(2) {
+    animation-delay: 0.2s;
+}
+
+.loader span:nth-of-type(3) {
+    animation-delay: 0.6s;
+}
+
+@keyframes loader {
+    0% {
+        opacity: 0.9;
+        transform: scale(0.5);
+    }
+    100% {
+        opacity: 0.1;
+        transform: scale(1);
+    }
+}

@@ -1,0 +1,11 @@
+piqa
+pytorch_msssim
+imagehash
+easydict
+decord
+ftfy
+av
+openpyxl
+omegaconf
+openpyxl
+git+https://github.com/openai/CLIP.git
