@@ -66,3 +66,6 @@ Please consider citing our paper in your publications if the project helps your 
 ```
 
 # TODO
+- [ ] New version of the prompt
+- [ ] Demo website
+- [ ] Pypi pakege
