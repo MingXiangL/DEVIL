@@ -1,6 +1,8 @@
-# DEVIL Protocol
-Official implementation of Evaluating dynamics capability of T2V generation models with DEVIL protocols (NeurIPS 2024)
-[![Paper](https://img.shields.io/badge/cs.CV-Paper-b31b1b?logo=arxiv&logoColor=red)](https://arxiv.org/abs/2407.01094)
+# DEVIL Protocol[![Paper](https://img.shields.io/badge/cs.CV-Paper-b31b1b?logo=arxiv&logoColor=red)](https://arxiv.org/abs/2407.01094)
+This respotory is the offical implementation of following paper:
+> Evaluation of Text-to-Video Generation Models: A Dynamics Perspective\
+> Mingxiang Liao*, Hannan Lu*, Xinyu Zhang*, Fang Wan, Tianyu Wang, Yuzhong Zhao, Wangmeng Zuo, Qixiang Ye, Jingdong Wang\
+> Neural Information Processing Systems, (2024)
 # Table of Contents
 - [DEVIL Protocol](#devil-protocol)
 - [Table of Contents](#table-of-contents)
