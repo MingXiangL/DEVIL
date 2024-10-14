@@ -37,7 +37,7 @@ pip install -r requirements.txt
 Download model weights from [Google Drive](https://drive.google.com/drive/folders/1VEMOOOLyw_7fumLpmL5AiMEEok-tZjsD?usp=sharing) or [Baidu Disk(extract code: 2gjp)](https://pan.baidu.com/s/1CXwCRRWWvFV-WpZL18ekBQ?pwd=2gjp) and put them in the **```model_weights```** directory.
 
 # Gemini API Key
-The ```naturalness``` metric relies on the Gemini 1.5 Pro model. So please turn to [Gemini](https://ai.google.dev/gemini-api/docs/api-key') to obtain your gemini_api_key before evaluating your model.
+The ```naturalness``` metric relies on the Gemini 1.5 Pro model. So please turn to [Gemini](https://ai.google.dev/gemini-api/docs/api-key') to obtain your gemini_api_key before evaluating the metric.
 
 # Usage
 
