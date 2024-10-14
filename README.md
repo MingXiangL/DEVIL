@@ -1,8 +1,14 @@
-# DEVIL Protocol[![Paper](https://img.shields.io/badge/cs.CV-Paper-b31b1b?logo=arxiv&logoColor=red)](https://arxiv.org/abs/2407.01094)
+# DEVIL Protocol
+[![Paper](https://img.shields.io/badge/cs.CV-Paper-b31b1b?logo=arxiv&logoColor=red)](https://arxiv.org/abs/2407.01094)
+[![Project Page](https://img.shields.io/badge/DEVIL-ProjectPage-green?logo=googlechrome&logoColor=green)](https://t2veval.github.io/DEVIL/)
+
 This respotory is the offical implementation of following paper:
 > Evaluation of Text-to-Video Generation Models: A Dynamics Perspective\
 > Mingxiang Liao*, Hannan Lu*, Xinyu Zhang*, Fang Wan, Tianyu Wang, Yuzhong Zhao, Wangmeng Zuo, Qixiang Ye, Jingdong Wang\
 > Neural Information Processing Systems, (2024)
+
+Please refer to the [Project Page](https://t2veval.github.io/DEVIL/) to view illustrations depicting the dynamics of various videos.
+
 # Table of Contents
 - [DEVIL Protocol](#devil-protocol)
 - [Table of Contents](#table-of-contents)
