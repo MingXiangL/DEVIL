@@ -59,10 +59,16 @@ Our sincere thanks to the contributors of these projects.
 # Citation
 Please consider citing our paper in your publications if the project helps your research.
 ```
-@inproceedings{liao2024evaluation,
+<!-- @inproceedings{liao2024evaluation,
   title={Evaluation of text-to-video generation models: A dynamics perspective},
   author={Liao, Mingxiang and Lu, Hannan and Zhang, Xinyu and Wan, Fang and Wang, Tianyu and Zhao, Yuzhong and Zuo, Wangmeng and Ye, Qixiang and Wang, Jingdong},
   booktitle =  {Neural Information Processing Systems},
+  year={2024}
+} -->
+@article{liao2024evaluation,
+  title={Evaluation of text-to-video generation models: A dynamics perspective},
+  author={Liao, Mingxiang and Lu, Hannan and Zhang, Xinyu and Wan, Fang and Wang, Tianyu and Zhao, Yuzhong and Zuo, Wangmeng and Ye, Qixiang and Wang, Jingdong},
+  journal={arXiv preprint arXiv:2407.01094},
   year={2024}
 }
 ```
