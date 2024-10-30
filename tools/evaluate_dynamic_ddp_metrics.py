@@ -232,7 +232,7 @@ def build_clip(model_name, rank, args):
     return model_clip, process_clip
 
 
-def cal_viclip_segment_dist(model, video_data, video_lengths, block_lengths_ratio=[0.5, 0.25]):
+def cal_viclip_segment_dist(model, video_data, video_lengths, block_lengths_ratio=[0.25]):
     distances = []
     for video in video_data.split(video_lengths):
         dist_obj = 0
@@ -499,7 +499,7 @@ def cal_dynamics_scores(args):
             flow_strength = cal_flow_strength_batch(model_flow, video_no_resize, video_lengths, video_names)
             ssim_dists, phash_dists = cal_ssim_dist(video_no_resize, org_videos, video_names)
             dino_segment_dist = cal_dino_segment_dist(model_dino_v2, video_data, video_lengths, )
-            viclip_segment_dist = cal_viclip_segment_dist(model_viclip, video_data, video_lengths, [0.5, 0.25])
+            viclip_segment_dist = cal_viclip_segment_dist(model_viclip, video_data, video_lengths, [0.25])
 
             # # Video level metrics
             temporal_info = cal_temporal_entropy(video_paths, f'{args.save_dir}/.tmp-rank-{rank}')
