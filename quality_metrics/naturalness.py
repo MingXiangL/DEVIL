@@ -213,6 +213,8 @@ def calculate_naturalness_score(mp4_dir, save_dir, api_key=None, num_processes=2
     save_naturalness_results([results_json_dir], mp4_file_list_path, excel_output_path)
     
     return excel_output_path
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--gemini_api_key', type=str, required=True)
