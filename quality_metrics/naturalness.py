@@ -9,8 +9,6 @@ import google.generativeai as genai
 import tqdm
 from openpyxl import Workbook
 
-# Previous helper functions remain the same...
-# (reality_mapping, read_json_files, parse_txt_file, map_video_paths, save_to_excel, read_paths_and_indices)
 
 def reality_mapping(reality):
     rr = reality.lower()
