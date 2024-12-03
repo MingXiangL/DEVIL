@@ -2,13 +2,15 @@ import os
 import time
 import json
 import argparse
+from multiprocessing import Pool, Manager
 from geminiplayground.core import GeminiClient
 from geminiplayground.parts import VideoFile, ImageFile
-# from geminiplayground.schemas import HarmCategory, HarmBlockThreshold
 import google.generativeai as genai
 import tqdm
 from openpyxl import Workbook
 
+# Previous helper functions remain the same...
+# (reality_mapping, read_json_files, parse_txt_file, map_video_paths, save_to_excel, read_paths_and_indices)
 
 def reality_mapping(reality):
     rr = reality.lower()
@@ -37,6 +39,7 @@ def read_json_files(file_list):
                     combined_dict[key] = {'naturalness': reality_mapping(value)}
     return combined_dict
 
+
 def parse_txt_file(txt_file_path):
     key_to_video_path = {}
     with open(txt_file_path, 'r') as file:
@@ -45,6 +48,7 @@ def parse_txt_file(txt_file_path):
             key_to_video_path[key] = os.path.basename(video_path)  # 获取文件名
     return key_to_video_path
 
+
 def map_video_paths(combined_dict, key_to_video_path):
     for key in combined_dict.keys():
         if key in key_to_video_path:
@@ -52,6 +56,7 @@ def map_video_paths(combined_dict, key_to_video_path):
         else:
             combined_dict[key]['video_name'] = None  # 如果没有对应的video_path，则设为None
     return combined_dict
+
 
 def save_to_excel(data, excel_path):
     wb = Workbook()
@@ -112,7 +117,7 @@ def judge_reality(index, video_file_path, api_key=None):
         content_head,
     ]
 
-    response = gemini_client.generate_response("models/gemini-1.5-pro-latest", multimodal_prompt,
+    response = gemini_client.generate_response("models/gemini-1.5-pro-001", multimodal_prompt,
                                             generation_config={"temperature": 0.0, "top_p": 1.0},)
 
     # Print the response
@@ -123,7 +128,17 @@ def judge_reality(index, video_file_path, api_key=None):
                 result.update({index: part.text})
             else:
                 result.update({index: None})
+    video_file.delete()
     return result
+
+
+def save_naturalness_results(results_json_dir, mp4_file_list_path, excel_output_path):
+    # transfer json to xlsx
+    combined_dict = read_json_files(results_json_dir)
+    key_to_video_path = parse_txt_file(mp4_file_list_path)
+    final_data = map_video_paths(combined_dict, key_to_video_path)
+    save_to_excel(final_data, excel_output_path)
+    print(f'Natualness score for each video is saved to {excel_output_path}')
 
 
 def find_mp4_files(directory, output_file):
@@ -138,50 +153,66 @@ def find_mp4_files(directory, output_file):
                 file.write(f"{counter}. {full_path}\n")
                 counter += 1  # 更新序号
 
+def process_video(args):
+    path, api_key = args
+    index, video_path = path
+    result = dict()
+    repeat_times = 0
+    sleep_time = 5
+    
+    while True:
+        try:
+            result = judge_reality(index, video_path, api_key=api_key)
+            sleep_time = 5
+            break
+        except BaseException as e:
+            print(f"Error processing video {index}: {e}")
+            print(f'Retry Times: {repeat_times}, Retrying...')
+            time.sleep(sleep_time)
+            repeat_times += 1
+            sleep_time += 10
+            sleep_time = min(sleep_time, 100)
+            
+    return result
 
-def get_naturalness_gemini(mp4_file_list_path, api_key, results_save_dir):
+def get_naturalness_gemini_parallel(mp4_file_list_path, api_key, results_save_dir, num_processes=20):
     paths_with_indices = read_paths_and_indices(mp4_file_list_path)
+    
+    # Create argument tuples for each process
+    process_args = [(path, api_key) for path in paths_with_indices]
+    
+    reality_results = {}
+    
+    with Pool(processes=num_processes) as pool:
+        # Use tqdm to show progress
+        for result in tqdm.tqdm(pool.imap_unordered(process_video, process_args), 
+                              total=len(process_args)):
+            reality_results.update(result)
+            # Save intermediate results
+            with open(results_save_dir, 'w') as f:
+                json.dump(reality_results, f)
+    
+    return reality_results
 
-    reality_results = dict()
-    for path in tqdm.tqdm(paths_with_indices):
-        repeat_times = 0
-        sleep_time = 5
-        while True:
-            try:
-                result = judge_reality(path[0], path[1], api_key=api_key)
-                reality_results.update(result)
-                with open(results_save_dir, 'w') as f:
-                    json.dump(reality_results, f)
-                sleep_time=5
-                break
-            except BaseException as e:
-                print(e)
-                print(f'Retry Times: {repeat_times}, Retrying...')
-                time.sleep(sleep_time)
-                repeat_times += 1
-                sleep_time += 10
-                sleep_time = min(sleep_time, 100)
-
-def save_naturalness_results(results_json_dir, mp4_file_list_path, excel_output_path):
-    # transfer json to xlsx
-    combined_dict = read_json_files(results_json_dir)
-    key_to_video_path = parse_txt_file(mp4_file_list_path)
-    final_data = map_video_paths(combined_dict, key_to_video_path)
-    save_to_excel(final_data, excel_output_path)
-    print(f'Natualness score for each video is saved to {excel_output_path}')
-
-
-def calculate_naturalness_score(mp4_dir, save_dir, api_key=None):
+def calculate_naturalness_score(mp4_dir, save_dir, api_key=None, num_processes=20):
     assert api_key is not None, 'Please get your gemini at https://ai.google.dev/gemini-api/docs/api-key'
+    
     mp4_file_list_path = os.path.join(save_dir, '.tmp_naturalness', 'mp4_files.txt')
     results_json_dir = os.path.join(save_dir, '.tmp_naturalness', 'naturalness_results.json')
     excel_output_path = os.path.join(save_dir, 'naturalness_results.xlsx')
+    
     os.makedirs(os.path.dirname(mp4_file_list_path), exist_ok=True)
+    
+    # Generate list of MP4 files
     find_mp4_files(mp4_dir, mp4_file_list_path)
-    get_naturalness_gemini(mp4_file_list_path, api_key, results_json_dir)
+    
+    # Process videos in parallel
+    get_naturalness_gemini_parallel(mp4_file_list_path, api_key, results_json_dir, num_processes)
+    
+    # Save results to Excel
     save_naturalness_results([results_json_dir], mp4_file_list_path, excel_output_path)
+    
     return excel_output_path
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--gemini_api_key', type=str, required=True)
